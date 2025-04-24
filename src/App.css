@@ -1,38 +1,147 @@
-.App {
-  text-align: center;
+/* File: src/App.css */
+@import url('https://fonts.googleapis.com/css2?family=VT323&family=Share+Tech+Mono&display=swap');
+
+:root {
+  --terminal-bg: #0a0a0a;
+  --terminal-text: #33ff00;
+  --terminal-error: #ff3333;
+  --terminal-success: #33ff33;
+  --terminal-user: #33ccff;
+  --terminal-header: #111;
+  --terminal-border: #333;
+  --terminal-shadow: rgba(0, 255, 0, 0.2);
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+body, html {
+  height: 100%;
+  width: 100%;
+  background-color: #000;
+  font-family: 'Share Tech Mono', monospace;
+  color: var(--terminal-text);
+  overflow: hidden;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.app {
+  height: 100vh;
+  width: 100vw;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-image: 
+    radial-gradient(rgba(0, 50, 0, 0.3) 2px, transparent 2px),
+    linear-gradient(rgba(0, 50, 0, 0.1) 1px, transparent 1px);
+  background-size: 50px 50px, 50px 50px;
+  background-position: 0 0, 25px 25px;
+  animation: bgScroll 120s linear infinite;
 }
 
-.App-link {
-  color: #61dafb;
+@keyframes bgScroll {
+  from { background-position: 0 0, 25px 25px; }
+  to { background-position: 1000px 1000px, 1025px 1025px; }
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+.main-terminal {
+  width: 90%;
+  max-width: 900px;
+  height: 80%;
+  margin: auto;
+  background-color: var(--terminal-bg);
+  border: 2px solid var(--terminal-border);
+  border-radius: 8px;
+  box-shadow: 0 0 30px var(--terminal-shadow);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  position: relative;
+}
+
+.terminal-header {
+  background-color: var(--terminal-header);
+  padding: 10px 15px;
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid var(--terminal-border);
+}
+
+.status-indicator {
+  width: 12px;
+  height: 12px;
+  background-color: var(--terminal-text);
+  border-radius: 50%;
+  margin-right: 10px;
+  animation: blink 1.5s infinite;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.3; }
+}
+
+.terminal-header h1 {
+  flex-grow: 1;
+  font-size: 1.2rem;
+  text-align: center;
+  letter-spacing: 2px;
+}
+
+.top-right-data {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  font-size: 0.8rem;
+}
+
+/* Add scan line effect */
+.app::after {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: repeating-linear-gradient(
+    to bottom,
+    rgba(0, 0, 0, 0) 0px,
+    rgba(0, 0, 0, 0) 1px,
+    rgba(0, 0, 0, 0.3) 1px,
+    rgba(0, 0, 0, 0.3) 2px
+  );
+  pointer-events: none;
+}
+
+/* Screen flicker effect */
+.app::before {
+  content: '';
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background-color: rgba(0, 50, 0, 0.03);
+  opacity: 0;
+  pointer-events: none;
+  animation: flicker 5s infinite;
+}
+
+@keyframes flicker {
+  0%, 100% { opacity: 0; }
+  92% { opacity: 0; }
+  94% { opacity: 0.1; }
+  96% { opacity: 0; }
+  98% { opacity: 0.2; }
+}
+
+/* For smaller screens */
+@media (max-width: 768px) {
+  .main-terminal {
+    width: 95%;
+    height: 90%;
   }
 }
