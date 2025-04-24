@@ -6,6 +6,8 @@ const SecretContent: React.FC = () => {
   const [decrypted, setDecrypted] = useState<boolean>(false);
   const [typedText, setTypedText] = useState<string>('');
   const [cursorPosition, setCursorPosition] = useState<number>(0);
+  const [decryptionProgress, setDecryptionProgress] = useState<number>(0);
+  const [decryptionText, setDecryptionText] = useState<string[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
   
   const kestrelMessage = `Special Agent Honey Bear,
@@ -20,20 +22,80 @@ Concerning Operation Rendezvous, I suggest immediate recalibration of one or bot
 
 Awaiting further communication on this matter urgently.
 
-Yours in trust,
+Yours,
 Agent Kestrel
 24th April 2025`;
+
+  // Pre-render the full message (but invisible) to establish the correct size immediately
+  const fullMessageLines = kestrelMessage.split('\n');
   
+  // Linux-style decryption animation
   useEffect(() => {
-    // Simulate document examination process
-    const timer = setTimeout(() => {
-      setDecrypted(true);
-    }, 2000);
-    
-    return () => clearTimeout(timer);
+    if (!decrypted) {
+      // Simulate Linux terminal decryption process
+      const decryptionSequence = [
+        '$ sudo cryptctl -a --level=maximum',
+        'Initializing cryptographic subsystem...',
+        'Loading AES-256 encryption modules...',
+        '[■□□□□□□□□□] 10% Decrypting metadata',
+        'Verifying integrity hash: fc8d32a1eb8e73e5ef4a5a1c491b0ff7',
+        '[■■□□□□□□□□] 20% Decrypting file structure',
+        'Hash verification successful.',
+        '[■■■□□□□□□□] 30% Extracting encrypted payload',
+        'Memory allocated for decryption: 256MB',
+        '[■■■■□□□□□□] 40% Calculating cipher parameters',
+        'Applying decryption key: ********-****-****-****-************',
+        '[■■■■■□□□□□] 50% Decrypting content blocks',
+        'Decrypting block 1/5: COMPLETE',
+        'Decrypting block 2/5: COMPLETE',
+        '[■■■■■■□□□□] 60% Assembling message components',
+        'Decrypting block 3/5: COMPLETE',
+        '[■■■■■■■□□□] 70% Validating content integrity',
+        'Decrypting block 4/5: COMPLETE',
+        '[■■■■■■■■□□] 80% Parsing message headers',
+        'Decrypting block 5/5: COMPLETE',
+        '[■■■■■■■■■□] 90% Finalizing decryption',
+        'Integrity check: PASSED',
+        'Origin verification: PASSED',
+        'Timestamp verification: PASSED',
+        '[■■■■■■■■■■] 100% Decryption complete',
+        'Displaying message from Agent Kestrel...'
+      ];
+      
+      let currentIndex = 0;
+      
+      const decryptionInterval = setInterval(() => {
+        if (currentIndex < decryptionSequence.length) {
+          const newText = decryptionSequence[currentIndex];
+          setDecryptionText(prev => [...prev, newText]);
+          
+          // Extract progress percentage
+          if (newText.includes('%')) {
+            const percentage = parseInt(newText.match(/(\d+)%/)?.[1] || '0');
+            setDecryptionProgress(percentage);
+          }
+          
+          currentIndex++;
+          
+          // Auto-scroll as new text appears
+          if (containerRef.current) {
+            containerRef.current.scrollTop = containerRef.current.scrollHeight;
+          }
+        } else {
+          clearInterval(decryptionInterval);
+          
+          // Add a pause before transitioning to the document
+          setTimeout(() => {
+            setDecrypted(true);
+          }, 2000); // 2 second pause before showing document
+        }
+      }, 250); // Terminal output speed
+      
+      return () => clearInterval(decryptionInterval);
+    }
   }, []);
   
-  // Balanced typewriter effect for Kestrel's message
+  // Improved typewriter effect
   useEffect(() => {
     if (decrypted && typedText.length < kestrelMessage.length) {
       const delay = getTypeDelay(kestrelMessage[typedText.length]);
@@ -67,28 +129,102 @@ Agent Kestrel
   // Split text into lines for proper display
   const textLines = typedText.split('\n');
   
+  // Get the appropriate CSS class for a terminal line
+  const getLineClass = (line: string): string => {
+    if (line.startsWith('$')) return 'command';
+    if (line.includes('PASSED')) return 'success';
+    if (line.includes('ERROR') || line.includes('FAILED')) return 'error';
+    if (line.includes('%')) return 'progress';
+    return 'output';
+  };
+  
+  // Simple effect to simulate "matrix rain" in the background
+  const renderMatrixRain = () => {
+    return (
+      <div className="matrix-rain">
+        {Array.from({ length: 20 }).map((_, index) => (
+          <div 
+            key={`matrix-column-${index}`} 
+            className="matrix-column"
+            style={{ 
+              left: `${Math.random() * 100}%`,
+              animationDuration: `${Math.random() * 5 + 10}s`,
+              animationDelay: `${Math.random() * 10}s`
+            }}
+          >
+            {Array.from({ length: 20 }).map((_, charIndex) => (
+              <span key={`matrix-char-${index}-${charIndex}`}>
+                {String.fromCharCode(Math.floor(Math.random() * 93) + 33)}
+              </span>
+            ))}
+          </div>
+        ))}
+      </div>
+    );
+  };
+  
   return (
     <div className="secret-content">
       {!decrypted ? (
-        <div className="decrypting">
-          <div className="decryption-progress">
-            <div className="decrypt-animation">
-              <div className="typewriter-carriage"></div>
+        <div className="decrypting" ref={containerRef}>
+          <div className="linux-terminal">
+            <div className="terminal-header">
+              <div className="terminal-controls">
+                <div className="terminal-button close"></div>
+                <div className="terminal-button minimize"></div>
+                <div className="terminal-button maximize"></div>
+              </div>
+              <div className="terminal-title">agent@secure-terminal:~/mission_78275464/decrypt</div>
             </div>
-            <p className="decrypt-text">DECRYPTING COMMUNIQUÉ...</p>
+            
+            <div className="decryption-terminal-content">
+              {decryptionText.map((line, index) => (
+                <div key={`line-${index}`} className={`terminal-line ${getLineClass(line)}`}>
+                  {line}
+                </div>
+              ))}
+              
+              {/* Terminal cursor */}
+              <div className="cursor-line">
+                <span className="terminal-prompt">$</span>
+                <span className="terminal-cursor"></span>
+              </div>
+            </div>
+            
+            {/* Progress bar */}
+            {decryptionProgress > 0 && (
+              <div className="terminal-progress">
+                <div className="progress-bar" style={{ width: `${decryptionProgress}%` }}></div>
+                <div className="progress-text">{decryptionProgress}% complete</div>
+              </div>
+            )}
+            
+            {renderMatrixRain()}
           </div>
         </div>
       ) : (
         <div className="message-content" ref={containerRef}>
           <div className="typewriter-paper">
-            {textLines.map((line, index) => (
-              <div key={`line-${index}`} className="typewriter-line">
-                {line || ' '}
-                {index === textLines.length - 1 && cursorPosition === typedText.length && (
-                  <span className="typewriter-cursor">|</span>
-                )}
-              </div>
-            ))}
+            {/* Hidden full message to set the size */}
+            <div className="full-message" aria-hidden="true">
+              {fullMessageLines.map((line, index) => (
+                <div key={`full-line-${index}`} className="typewriter-line">
+                  {line || ' '}
+                </div>
+              ))}
+            </div>
+            
+            {/* Visible typewriter effect */}
+            <div className="typing-overlay">
+              {textLines.map((line, index) => (
+                <div key={`line-${index}`} className="typewriter-line">
+                  {line || ' '}
+                  {index === textLines.length - 1 && cursorPosition === typedText.length && (
+                    <span className="typewriter-cursor">|</span>
+                  )}
+                </div>
+              ))}
+            </div>
           </div>
         </div>
       )}

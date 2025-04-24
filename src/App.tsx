@@ -1,5 +1,5 @@
 // File: src/App.tsx
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import './App.css';
 import Terminal from './components/Terminal';
 import AccessDenied from './components/AccessDenied';
@@ -38,11 +38,19 @@ function App() {
           ) : (
             <div className="main-terminal">
               <div className="terminal-header">
-                <div className="status-indicator"></div>
-                <h1>MISSION ID: 78275464</h1>
+                <div className="terminal-header-top">
+                  {/* Terminal window controls */}
+                  <div className="terminal-controls">
+                    <div className="terminal-button close"></div>
+                    <div className="terminal-button minimize"></div>
+                    <div className="terminal-button maximize"></div>
+                  </div>
+                  <h1>agent@secure-terminal:~/mission_78275464</h1>
+                </div>
+                
                 <div className="top-right-data">
-                  <div>ATTEMPTS: {attempts}</div>
-                  <div>STATUS: {authenticated ? "AUTHENTICATED" : "VERIFICATION REQUIRED"}</div>
+                  <div>attempts: {attempts}</div>
+                  <div>status: {authenticated ? "authenticated" : "verification_required"}</div>
                 </div>
               </div>
               

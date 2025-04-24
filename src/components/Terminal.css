@@ -3,36 +3,38 @@
   flex-grow: 1;
   display: flex;
   flex-direction: column;
-  background-color: var(--secondary-bg);
-  padding: 15px;
+  background-color: #1a1a1a;
+  padding: 5px 0;
   overflow: hidden;
   position: relative;
-  font-family: 'Special Elite', cursive;
+  font-family: 'Source Code Pro', monospace;
+  color: #f0f0f0;
 }
 
-.terminal::after {
+/* Subtle hacker-style background pattern */
+.terminal::before {
   content: '';
   position: absolute;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-image: url("data:image/svg+xml,%3Csvg width='6' height='6' viewBox='0 0 6 6' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23483c32' fill-opacity='0.1' fill-rule='evenodd'%3E%3Cpath d='M5 0h1L0 5v1H5V0zm1 5v1H5L0 1v1h1L5 5z'/%3E%3C/g%3E%3C/svg%3E");
-  pointer-events: none;
+  background-image: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23333333' fill-opacity='0.1'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
   opacity: 0.1;
+  pointer-events: none;
 }
 
 .terminal-messages {
   flex-grow: 1;
   overflow-y: auto;
   padding: 15px;
-  font-family: 'Special Elite', cursive;
-  font-size: 16px;
-  line-height: 1.8;
+  font-size: 15px;
+  line-height: 1.5;
   scrollbar-width: thin;
-  scrollbar-color: var(--border-color) transparent;
-  background-image: linear-gradient(rgba(255, 255, 255, 0.02) 50%, rgba(0, 0, 0, 0.02) 50%);
-  background-size: 100% 3rem;
+  scrollbar-color: #333 #111;
+  position: relative;
+  z-index: 3;
+  margin-bottom: 5px;
 }
 
 .terminal-messages::-webkit-scrollbar {
@@ -40,21 +42,21 @@
 }
 
 .terminal-messages::-webkit-scrollbar-track {
-  background: transparent;
+  background: #0a0a0a;
 }
 
 .terminal-messages::-webkit-scrollbar-thumb {
-  background-color: var(--border-color);
-  border-radius: 4px;
+  background-color: #333;
+  border-radius: 2px;
 }
 
 .terminal-message {
-  margin-bottom: 15px;
+  margin-bottom: 12px;
   overflow-wrap: break-word;
   white-space: pre-wrap;
-  animation: fadeIn 0.6s ease-in-out;
+  animation: fadeIn 0.3s ease-in-out;
   position: relative;
-  padding-left: 2px;
+  letter-spacing: 0.05em;
 }
 
 @keyframes fadeIn {
@@ -63,53 +65,80 @@
 }
 
 .terminal-message.system {
-  color: var(--text-primary);
+  color: #f0f0f0;
 }
 
 .terminal-message.user {
-  color: var(--accent-color);
-  font-weight: bold;
+  color: #ccc;
+  font-weight: 600;
 }
 
 .terminal-message.error {
-  color: var(--error-color);
-  animation: subtle-shake 0.5s cubic-bezier(.36,.07,.19,.97) both;
-}
-
-@keyframes subtle-shake {
-  10%, 90% { transform: translate3d(-1px, 0, 0); }
-  20%, 80% { transform: translate3d(1px, 0, 0); }
-  30%, 50%, 70% { transform: translate3d(-1px, 0, 0); }
-  40%, 60% { transform: translate3d(1px, 0, 0); }
+  color: #ff6b6b;
 }
 
 .terminal-message.success {
-  color: var(--success-color);
+  color: #67c23a;
+}
+
+/* Banner style for ASCII art */
+.terminal-message.banner {
+  color: #3c91e6;
+  font-weight: bold;
+  text-shadow: 0 0 5px rgba(60, 145, 230, 0.3);
+  margin: 10px 0;
+}
+
+/* Style for important messages */
+.terminal-message.important {
+  color: #ffbd2e;
+  font-weight: bold;
+}
+
+.terminal-message.important::before {
+  content: "┃ ";
+  color: #ffbd2e;
+}
+
+/* Linux-style prompt */
+.terminal-message.system::before {
+  content: '';
+}
+
+.terminal-message.user::before {
+  content: '';
 }
 
 .terminal-input-area {
   display: flex;
-  padding: 15px;
-  border-top: 1px solid var(--border-color);
-  background-color: rgba(10, 15, 20, 0.3);
+  padding: 8px 15px;
+  background-color: #1a1a1a;
   position: relative;
+  z-index: 3;
+  font-family: 'Source Code Pro', monospace;
 }
 
 .prompt {
-  color: var(--accent-color);
+  color: #67c23a;
   font-weight: bold;
-  margin-right: 10px;
-  font-family: 'Special Elite', cursive;
+  margin-right: 8px;
+}
+
+/* Special prompt effect */
+.prompt::before {
+  content: ">";
+  margin-right: 1px;
+  color: #3c91e6;
 }
 
 .terminal-input {
   flex-grow: 1;
   background-color: transparent;
   border: none;
-  color: var(--text-bright);
-  font-family: 'Special Elite', cursive;
-  font-size: 16px;
-  caret-color: var(--accent-color);
+  color: #f0f0f0;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 15px;
+  caret-color: #f0f0f0;
 }
 
 .terminal-input:focus {
@@ -120,10 +149,15 @@
   display: inline-block;
   width: 8px;
   height: 16px;
-  background-color: var(--accent-color);
+  background-color: #f0f0f0;
   animation: blink 1s step-end infinite;
   vertical-align: middle;
   margin-left: 2px;
+}
+
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
 }
 
 .typewriter {
@@ -131,45 +165,7 @@
   position: relative;
 }
 
-/* Inkblot effect for important messages */
-.terminal-message.system::after {
-  content: '';
-  position: absolute;
-  bottom: -5px;
-  right: 10%;
-  width: 8px;
-  height: 3px;
-  background-color: var(--text-secondary);
-  opacity: 0.3;
-  border-radius: 50%;
-  transform: skew(-10deg, 5deg);
-}
-
-/* Animation for the "typing" effect */
-@keyframes typing {
-  from { width: 0 }
-  to { width: 100% }
-}
-
-/* Button styles for any interactive elements */
-.terminal-button {
-  background-color: var(--secondary-bg);
-  color: var(--accent-color);
-  border: 1px solid var(--accent-color);
-  padding: 5px 10px;
-  font-family: 'Special Elite', cursive;
-  font-size: 14px;
-  cursor: pointer;
-  transition: all 0.3s;
-  box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
-}
-
-.terminal-button:hover {
-  background-color: var(--accent-color);
-  color: var(--secondary-bg);
-}
-/* Add this to your Terminal.css file */
-
+/* Terminal-like button with flair */
 .access-button-container {
   margin: 20px 0;
   display: flex;
@@ -177,18 +173,16 @@
 }
 
 .access-button {
-  background-color: #1d2b36;
-  color: #b8860b;
-  border: 2px solid #b8860b;
-  padding: 12px 20px;
-  font-family: 'Special Elite', cursive;
-  font-size: 16px;
+  background-color: #2c2c2c;
+  color: #f0f0f0;
+  border: 1px solid #555;
+  padding: 10px 15px;
+  font-family: 'Source Code Pro', monospace;
+  font-size: 14px;
   cursor: pointer;
   transition: all 0.3s;
-  animation: pulse-warning 2s infinite;
-  box-shadow: 0 0 15px rgba(184, 134, 11, 0.3);
   text-transform: uppercase;
-  letter-spacing: 2px;
+  letter-spacing: 1px;
   position: relative;
   overflow: hidden;
 }
@@ -196,32 +190,159 @@
 .access-button::before {
   content: '';
   position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #ff5f57, #ffbd2e, #28ca41, #3c91e6, #a252e3);
+  z-index: -1;
+  animation: rotate 4s linear infinite;
+}
+
+.access-button::after {
+  content: '';
+  position: absolute;
   top: 0;
-  left: -100%;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(90deg, transparent, rgba(184, 134, 11, 0.2), transparent);
-  transition: 0.5s;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: #2c2c2c;
+  z-index: -1;
+}
+
+@keyframes rotate {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 .access-button:hover {
-  background-color: rgba(184, 134, 11, 0.2);
-  box-shadow: 0 0 20px rgba(184, 134, 11, 0.5);
-}
-
-.access-button:hover::before {
-  left: 100%;
+  transform: scale(1.02);
+  background-color: #3c3c3c;
+  border-color: #777;
 }
 
 .access-button:focus {
   outline: none;
 }
 
-@keyframes pulse-warning {
-  0%, 100% {
-    box-shadow: 0 0 15px rgba(184, 134, 11, 0.3);
+/* Matrix-style random characters that occasionally appear */
+.matrix-rain {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  pointer-events: none;
+  z-index: 2;
+  overflow: hidden;
+  opacity: 0.1;
+}
+
+.matrix-column {
+  position: absolute;
+  top: -100px;
+  width: 20px;
+  color: #67c23a;
+  font-size: 12px;
+  text-align: center;
+  animation: fall linear infinite;
+}
+
+@keyframes fall {
+  to {
+    transform: translateY(calc(100vh + 100px));
   }
-  50% {
-    box-shadow: 0 0 25px rgba(184, 134, 11, 0.7);
+}
+
+/* Error glitch effect for failed authentication */
+.error-glitch {
+  animation: glitch-error 0.5s linear;
+}
+
+@keyframes glitch-error {
+  0% { transform: translate(0); }
+  20% { transform: translate(-3px, 3px); background-color: rgba(255, 107, 107, 0.1); }
+  40% { transform: translate(-3px, -3px); }
+  60% { transform: translate(3px, 3px); background-color: rgba(255, 107, 107, 0.1); }
+  80% { transform: translate(3px, -3px); }
+  100% { transform: translate(0); }
+}
+
+/* Fun typing effect for messages */
+.terminal-message {
+  position: relative;
+  animation: fadeIn 0.3s cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* Highlight specific words in the terminal */
+.terminal-message span.highlight {
+  color: #ffbd2e;
+  text-shadow: 0 0 5px rgba(255, 189, 46, 0.3);
+}
+
+/* Lines with progress indication */
+.terminal-message:has([class*="[■"]) {
+  color: #3c91e6;
+}
+
+/* Animated countdown effect */
+@keyframes countdown {
+  0% { opacity: 1; }
+  50% { opacity: 0.5; }
+  100% { opacity: 1; }
+}
+
+/* Active scanning effect */
+@keyframes scan {
+  0% { background-position: 0% 0%; }
+  100% { background-position: 0% 100%; }
+}
+
+/* Add styling for a command success indicator */
+.terminal-message.command-success::after {
+  content: " [OK]";
+  color: #67c23a;
+}
+
+/* Add styling for a command failure indicator */
+.terminal-message.command-failure::after {
+  content: " [FAILED]";
+  color: #ff6b6b;
+}
+
+/* For small mobile devices */
+@media (max-width: 480px) {
+  .terminal-messages {
+    font-size: 14px;
+    padding: 10px;
+  }
+  
+  .terminal-input-area {
+    padding: 8px 10px;
+  }
+  
+  .terminal-input {
+    font-size: 14px;
+  }
+  
+  .access-button {
+    padding: 8px 12px;
+    font-size: 13px;
+  }
+}
+
+/* For very small screens */
+@media (max-width: 350px) {
+  .terminal-messages {
+    font-size: 12px;
+    padding: 8px;
+  }
+  
+  .terminal-input {
+    font-size: 12px;
   }
 }

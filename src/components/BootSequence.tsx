@@ -15,12 +15,21 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
   const initialBootMessages = [
     "INITIALIZING SYSTEM...",
     "LOADING PRIMARY PROTOCOLS...",
+    "ESTABLISHING SECURE CONNECTION...",
+    "AUTHENTICATING HARDWARE...",
+    "LOADING ENCRYPTION MODULES...",
     "ACCESSING SECURITY DIRECTORY...",
     "CONNECTING TO COMMAND CENTER...",
     "PREPARING INTERFACE...",
   ];
   
-  // Display initial boot messages automatically
+  // Format timestamp more like a terminal
+  const formatTimestamp = () => {
+    const now = new Date();
+    return `[${now.getHours().toString().padStart(2, '0')}:${now.getMinutes().toString().padStart(2, '0')}:${now.getSeconds().toString().padStart(2, '0')}]`;
+  };
+  
+  // Display initial boot messages with a more authentic terminal feel
   useEffect(() => {
     let counter = 0;
     let timeouts: NodeJS.Timeout[] = [];
@@ -28,14 +37,24 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
     const addMessage = () => {
       if (counter < initialBootMessages.length) {
         const newMessage = initialBootMessages[counter];
-        setBootLines(prev => [...prev, newMessage]);
+        
+        // Add random technical details for more authentic terminal feel
+        const randomTechDetails = getRandomTechDetails(counter);
+        const formattedMessage = randomTechDetails ? 
+          `${newMessage}\n  ${randomTechDetails}` : 
+          newMessage;
+          
+        setBootLines(prev => [...prev, formattedMessage]);
         
         // Update progress
         const progress = Math.round((counter + 1) / (initialBootMessages.length + 1) * 75); // Only go to 75%
         setLoadingProgress(progress);
         
         counter++;
-        const timeout = setTimeout(addMessage, 1500); // Slower timing
+        
+        // Variable timing for more authentic feel
+        const variableDelay = 1200 + Math.random() * 600;
+        const timeout = setTimeout(addMessage, variableDelay);
         timeouts.push(timeout);
       } else {
         // Initial loading complete
@@ -52,24 +71,52 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
     };
   }, []);
   
+  // Generate random technical details for more authentic terminal feel
+  const getRandomTechDetails = (index: number): string => {
+    const details = [
+      "Loading module: sec_protocol_v3.8.5..",
+      "Verifying digital signatures: SHA-256..",
+      "System memory allocated: 4096MB..",
+      "Encryption: AES-256-GCM active..",
+      "Network status: SECURE..",
+      "Firewall: ACTIVE..",
+      "CPU Usage: 12%..",
+      "Registry check: PASSED..",
+      "Memory scan complete: NO THREATS..",
+      "Security level: MAXIMUM..",
+      "Directory access: /usr/mission/secure78275464..",
+      "API version: 4.2.67..",
+    ];
+    
+    // Only show details on some lines for authenticity
+    if (Math.random() > 0.3) {
+      // Choose a random detail or a detail based on the index
+      const detailIndex = (index + Math.floor(Math.random() * 3)) % details.length;
+      return details[detailIndex];
+    }
+    
+    return "";
+  };
+  
   const handleProceed = () => {
-    console.log("Proceed button clicked"); // Debug log
     setShowContinue(false);
     
-    // Add the final message
-    setBootLines(prev => [...prev, "ACTIVATING SECURITY PROTOCOLS..."]);
+    // Add more terminal-like messages
+    setBootLines(prev => [...prev, "INITIATING SECURITY PROTOCOLS..."]);
     setLoadingProgress(90);
     
-    // Show final message after delay
     setTimeout(() => {
-      setBootLines(prev => [...prev, "SYSTEM READY: AGENT HB ACCESS POINT"]);
-      setLoadingProgress(100);
+      setBootLines(prev => [...prev, "VERIFYING AGENT CREDENTIALS..."]);
       
-      // Complete the boot sequence
       setTimeout(() => {
-        console.log("Boot sequence complete, calling onComplete()"); // Debug log
-        onComplete();
-      }, 2000);
+        setBootLines(prev => [...prev, "SYSTEM READY: AGENT HB ACCESS POINT"]);
+        setLoadingProgress(100);
+        
+        // Complete the boot sequence
+        setTimeout(() => {
+          onComplete();
+        }, 2000);
+      }, 1500);
     }, 1500);
   };
   
@@ -86,7 +133,7 @@ const BootSequence: React.FC<BootSequenceProps> = ({ onComplete }) => {
       <div className="boot-console">
         {bootLines.map((line, index) => (
           <div key={`boot-line-${index}`} className="boot-line">
-            <span className="timestamp">[{new Date().toLocaleTimeString([], {hour: '2-digit', minute:'2-digit'})}]</span>
+            <span className="timestamp">{formatTimestamp()}</span>
             <span className="message">{line}</span>
           </div>
         ))}

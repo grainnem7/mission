@@ -1,13 +1,72 @@
-body {
+/* File: src/index.css */
+@import url('https://fonts.googleapis.com/css2?family=Source+Code+Pro:wght@400;600&display=swap');
+
+:root {
+  --terminal-green: #33ff33;
+  --terminal-font: 'Source Code Pro', monospace;
+}
+
+html, body {
   margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow: hidden;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
     'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
     sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
+  background-color: #000;
+}
+
+#root {
+  height: 100%;
+  width: 100%;
 }
 
 code {
-  font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
-    monospace;
+  font-family: var(--terminal-font);
+}
+
+/* iOS viewport fix */
+@supports (-webkit-touch-callout: none) {
+  html, body, #root {
+    height: -webkit-fill-available;
+  }
+}
+
+/* Prevent text size adjustment on orientation change (iOS) */
+html {
+  -webkit-text-size-adjust: 100%;
+}
+
+/* Fix for mobile address bar height issues */
+@media (max-width: 768px) {
+  html, body, #root {
+    height: 100%;
+  }
+  
+  body {
+    position: fixed;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+  }
+}
+
+/* Prevent user selection on interactive elements */
+button, 
+input, 
+.status-indicator, 
+.terminal-button,
+.terminal-controls,
+.access-button {
+  -webkit-tap-highlight-color: transparent;
+  user-select: none;
+}
+
+/* Improve text visibility and rendering */
+* {
+  box-sizing: border-box;
 }

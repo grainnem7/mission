@@ -83,3 +83,101 @@
   line-height: 1.6;
   font-family: 'Special Elite', cursive;
 }
+
+/* More terminal-like styling for access denied */
+.access-denied.flash::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    rgba(18, 16, 16, 0) 50%, 
+    rgba(0, 0, 0, 0.25) 50%
+  );
+  background-size: 100% 4px;
+  pointer-events: none;
+  opacity: 0.15;
+  z-index: -1;
+}
+
+/* Add a glitch effect to the warning */
+@keyframes glitch {
+  0% {
+    transform: translate(0);
+  }
+  20% {
+    transform: translate(-3px, 3px);
+  }
+  40% {
+    transform: translate(-3px, -3px);
+  }
+  60% {
+    transform: translate(3px, 3px);
+  }
+  80% {
+    transform: translate(3px, -3px);
+  }
+  100% {
+    transform: translate(0);
+  }
+}
+
+.warning-text {
+  animation: glitch 0.8s infinite ease-in-out alternate-reverse;
+  text-shadow: 
+    1px 1px 1px #ff0000,
+    -1px -1px 1px #00ff00,
+    1px -1px 1px #0000ff;
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .access-denied-warning {
+    padding: 20px;
+    max-width: 90%;
+  }
+  
+  .warning-icon {
+    font-size: 2rem;
+    margin-bottom: 10px;
+  }
+  
+  .warning-text {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+  }
+  
+  .warning-details {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .access-denied-warning {
+    padding: 15px;
+    max-width: 95%;
+  }
+  
+  .access-denied-warning::before {
+    top: -8px;
+    left: -8px;
+    right: -8px;
+    bottom: -8px;
+  }
+  
+  .warning-icon {
+    font-size: 1.8rem;
+    margin-bottom: 8px;
+  }
+  
+  .warning-text {
+    font-size: 1.3rem;
+    margin-bottom: 10px;
+  }
+  
+  .warning-details {
+    font-size: 0.85rem;
+  }
+}
