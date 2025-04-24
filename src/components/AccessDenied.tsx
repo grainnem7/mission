@@ -40,7 +40,7 @@ const AccessDenied: React.FC<AccessDeniedProps> = ({ visible }) => {
           ACCESS DENIED
         </div>
         <div className="warning-details">
-          Your identity as Agent Honey Bear cannot be confirmed.
+          Your identity as Special Agent Honey Bear cannot be confirmed.
           <br />
           Operation compromised.
           <br />

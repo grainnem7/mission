@@ -74,7 +74,7 @@ const Terminal: React.FC<TerminalProps> = ({ onSolveAttempt, onStarlingPuzzleSol
         'CLASSIFICATION: URGENT',
         '▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓▓',
         'AUTHENTICATION REQUIRED',
-        'To verify your identity as Agent Honey Bear, please respond to the security question below:',
+        'To verify your identity as Special Agent Honey Bear, please respond to the security question below:',
         'SECURITY QUESTION: What was the code name for the red infiltration liquid that you and S.A. Kestral deployed during Operation Guardian?'
       ];
       
@@ -147,7 +147,7 @@ const Terminal: React.FC<TerminalProps> = ({ onSolveAttempt, onStarlingPuzzleSol
     if (answer === 'whoami') {
       setMessages(prev => [
         ...prev,
-        'User: Agent Honey Bear (authentication pending)'
+        'User: Special Agent Honey Bear (authentication pending)'
       ]);
       return;
     }
@@ -199,7 +199,7 @@ const Terminal: React.FC<TerminalProps> = ({ onSolveAttempt, onStarlingPuzzleSol
     } else {
       // Random fake hacking failure messages
       const failureMessages = [
-        'AUTHENTICATION FAILED. This information would only be known to Agent Honey Bear.',
+        'AUTHENTICATION FAILED. This information would only be known to Special Agent Honey Bear.',
         'ACCESS DENIED. Incorrect security response.',
         'IDENTITY VERIFICATION FAILED. Security protocols engaged.',
         'INCORRECT RESPONSE. Warning: Multiple failures will trigger lockout.'
