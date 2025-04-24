@@ -14,6 +14,8 @@ const SecretContent: React.FC = () => {
 
 I know this message breaks the protocol you set — but I believe the situation calls for urgent interception.
 
+I recieved your latest transmission this afternoon. I must say, it was quite the surprise to learn you are coordinating missions so soon after operation Wien. Your skills are commendable.
+
 You've set new coordinates for a southern rendezvous six months and one week from the day we first crossed paths. But recall - we are already to be deployed on a critical operation that very day. A high-priority assignment. Northbound. 
 
 I believe this detail may have slipped through your otherwise impeccable intelligence.
