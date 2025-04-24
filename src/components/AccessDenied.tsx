@@ -9,13 +9,13 @@ interface AccessDeniedProps {
 const AccessDenied: React.FC<AccessDeniedProps> = ({ visible }) => {
   const [flashActive, setFlashActive] = useState<boolean>(true);
   
-  // Create flashing effect
+  // Create subtle flashing effect
   useEffect(() => {
     if (!visible) return;
     
     const interval = setInterval(() => {
       setFlashActive(prev => !prev);
-    }, 500);
+    }, 600); // Slower, more subtle flash
     
     return () => clearInterval(interval);
   }, [visible]);
@@ -28,9 +28,11 @@ const AccessDenied: React.FC<AccessDeniedProps> = ({ visible }) => {
         <div className="warning-icon">⚠</div>
         <div className="warning-text">ACCESS DENIED</div>
         <div className="warning-details">
-          UNAUTHORIZED ACCESS ATTEMPT DETECTED
+          Your identity as cannot be confirmed.
           <br />
-          SECURITY PROTOCOLS ENGAGED
+          Operation compromised.
+          <br />
+          System lockdown initiated.
         </div>
       </div>
     </div>
